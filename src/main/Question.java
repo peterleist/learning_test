@@ -1,12 +1,12 @@
 import java.io.Serializable;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Question extends Node implements Serializable{
     private static final long serialVersionUID = 1L;
     private Node right_a;
     private Node false_a;
-    private boolean is_ok;
 
     public Question(String question){
         super(question);
@@ -19,35 +19,25 @@ public class Question extends Node implements Serializable{
         false_a = new Answer(answer);
     }
 
-    public boolean run(){
-        try {
+    public boolean run() throws IOException, NullPointerException{
+
+            if(right_a == null || false_a == null) throw new NullPointerException();
             System.out.println(this.getData());
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            switch(br.readLine()){
-                case "y": 
-                    if(!right_a.run()){
-                        wrong_ans(true);
-                    }
-                    break;
-                case "n": 
-                    if(!false_a.run()){
-                        wrong_ans(false);
-                    }
-                break;
-            }  
-            //System.out.println(right_a.getData());
-        } catch (Exception e) {
-            //TODO: handle exception
-        }
+            String user_input = br.readLine();
+
+            if(user_input == "y" && !right_a.run()) wrong_ans(true);
+            else if(user_input == "n" && !false_a.run()) wrong_ans(false);
+            else return false;
         return true;
         
     }
 
-    public void wrong_ans(boolean side){
+    public void wrong_ans(boolean side) throws IOException, NullPointerException{
 
         String true_ans, true_ques;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        try {
+        
             System.out.println("Mire gondoltal?");
             true_ans = br.readLine();
             System.out.println("Mond egy krdest amire az igen valasz: " + true_ans);
@@ -70,9 +60,7 @@ public class Question extends Node implements Serializable{
             }
 
 
-        } catch (Exception e) {
-            //TODO: handle exception
-        }
+        
         
     }
 }

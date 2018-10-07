@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.io.Serializable;
 
 public abstract class Node implements Serializable{
@@ -12,5 +13,5 @@ public abstract class Node implements Serializable{
     }
     public abstract void SetRA(String answer);
     public abstract void SetFA(String answer);
-    public abstract boolean run();
+    public abstract boolean run() throws IOException, NullPointerException;
 }

@@ -1,5 +1,6 @@
 import java.io.Serializable;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Answer extends Node implements Serializable{
@@ -12,8 +13,7 @@ public class Answer extends Node implements Serializable{
     public void SetRA(String a){}
     public void SetFA(String a){}
 
-    public boolean run(){
-        try {
+    public boolean run() throws IOException, NullPointerException{
             System.out.println(this.getData());
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             
@@ -21,10 +21,6 @@ public class Answer extends Node implements Serializable{
                 case "y": return true;
                 case "n": return false;
             }  
-
-        } catch (Exception e) {
-            //TODO: handle exception
-        }
         return false;
     }
 
