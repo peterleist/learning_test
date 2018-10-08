@@ -5,23 +5,34 @@ import java.io.InputStreamReader;
 
 public class Question extends Node implements Serializable{
     private static final long serialVersionUID = 1L;
-    private Node right_a;
-    private Node false_a;
+    private Node right_a = null;
+    private Node false_a = null;
 
     public Question(String question){
         super(question);
+        
     }
 
     public void SetRA(String answer){
         right_a = new Answer(answer);
     }
+    public Node GetRA(){
+        return right_a;
+    }
     public void SetFA(String answer){
         false_a = new Answer(answer);
+    }
+    public Node GetFA(){
+        return false_a;
     }
 
     public boolean run() throws IOException, NullPointerException{
 
-            if(right_a == null || false_a == null) throw new NullPointerException();
+            if(right_a == null || false_a == null)
+            { throw new NullPointerException(); 
+                
+            }
+            else{
             System.out.println(this.getData());
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             String user_input = br.readLine();
@@ -29,6 +40,7 @@ public class Question extends Node implements Serializable{
             if(user_input == "y" && !right_a.run()) wrong_ans(true);
             else if(user_input == "n" && !false_a.run()) wrong_ans(false);
             else return false;
+            }
         return true;
         
     }
@@ -42,6 +54,7 @@ public class Question extends Node implements Serializable{
             true_ans = br.readLine();
             System.out.println("Mond egy krdest amire az igen valasz: " + true_ans);
             true_ques = br.readLine();
+            System.out.println("A kedes: " + true_ques);
             if(side){
                 Node temp;
                 temp = right_a;

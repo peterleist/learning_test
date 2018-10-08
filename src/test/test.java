@@ -2,37 +2,91 @@
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 
 
 public class test{
-    Node root;
+    Question quest = null;
     
+
+    //Simulated user input strings
+    String simulatedData1 =  "Ferrari" + System.getProperty("line.separator")
+    + "Auto?" + System.getProperty("line.separator");
+
+    String simulatedData2 =  "Citrom" + System.getProperty("line.separator")
+    + "Citrus fele?" + System.getProperty("line.separator");
+    //_________________________
+
     @BeforeEach
     void init(){
         //basic tree
-        root = Serialize.deSer();
+        //-----------------------
+        //Alap fa   Piros?
+        //          /    \
+        //        Alma  Korte
+        //-----------------------
+        quest = new Question("Piros?");
+        quest.SetRA("Alma");
+        quest.SetFA("Korte");
+        //-----------------------
     }
     
 
+    //Abban az esetben ha nincs talalat bovitia fat, es a felhasznalotol bekeri
+    //a szukseges adatokat.
+
+    //Append tree. Logic and UI test with simulated datas.
     @Test
-    void questionTest(){
+    void WrongAnsTestTrue(){
+        boolean catch_ex = false;
+        try {
+            System.setIn(new ByteArrayInputStream(simulatedData1.getBytes()));
+            quest.wrong_ans(true);  
+        }
+        catch(Exception e){
+            catch_ex = true;
+        }
+        assertFalse(catch_ex);
+        assertEquals(quest.GetRA().getData(), "Auto?");
+    }
+
+    //Append tree. Logic and UI test with simulated datas.
+    @Test
+    void WrongAnsTestFalse(){
+        boolean catch_ex = false;
+        try {
+            System.setIn(new ByteArrayInputStream(simulatedData2.getBytes()));
+            quest.wrong_ans(false);  
+        }
+        catch(Exception e){
+            catch_ex = true;
+        }
+        assertFalse(catch_ex);
+        assertEquals(quest.GetFA().getData(), "Citrus fele?");
+    }
+
+    //Constructor test
+    @Test
+    void QuestionConsTest(){
         String data;
-        data = root.getData();
+        data = quest.getData();
         assertEquals(data, "Piros?");
     }
 
+    //Logic(Error thrown test)
     @Test
     void QuestionRunNULLTest(){
         Node quest = new Question("Piros?");
         boolean throws_err = false;
         try {
-            //System.setIn(new ByteArrayInputStream("y".getBytes()));
             quest.run();  
         } catch (NullPointerException e) {
-            System.out.println("Error");
             throws_err = true;
         }
         catch(Exception e){
@@ -40,45 +94,45 @@ public class test{
         assertTrue(throws_err);
     }
 
+    //Logic test + User input test;
+    // TODO: Run test, need refactor run()!
     @Test
     void QuestionRunTest(){
+
         try {
             System.setIn(new ByteArrayInputStream("y".getBytes()));
-            System.setIn(new ByteArrayInputStream("y".getBytes()));
-            assertTrue(!root.run());
+            quest.run();
         } catch (Exception e) {
-            //TODO: handle exception
+            assertTrue(false);
         }
 
         
     }
 
-    @Test
-    void QuestionWrongAnsTest(){
-        boolean no_ex = true;
-        Question quest = new Question("Piros?");
-        quest.SetFA("Korte");
-        quest.SetRA("Alma");
-        try {
-            quest.wrong_ans(true);
-            quest.wrong_ans(false);
-        } catch (Exception e) {
-            no_ex = false;
-        }
-        assertTrue(no_ex);
-    }
-
+    //Logic testing
     @Test
     void AnswerRun(){
         Node ans = new Answer("Auto");
         boolean is_correct = false;
-        System.setIn(new ByteArrayInputStream("y".getBytes()));
         try {
            is_correct =  ans.run(); 
         } catch (Exception e) {
-            //TODO: handle exception
+            is_correct = false;
         }
         assertTrue(is_correct);
     }
+
+
+    //Database testing
+    @Test
+    void SerializeTest(){
+
+        Serialize.Ser(quest);
+        Node deserroot = Serialize.deSer();
+        assertEquals(deserroot.getData(), "Piros?");
+
+    }
+
+
 
 }
