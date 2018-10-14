@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Question.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gradle_proj</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Question.java</span></div><h1>Question.java</h1><pre class="source lang-java linenums">import java.io.Serializable;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Question extends Node implements Serializable{
+    private static final long serialVersionUID = 1L;
+<span class="fc" id="L8">    private Node right_a = null;</span>
+<span class="fc" id="L9">    private Node false_a = null;</span>
+
+    public Question(String question){
+<span class="fc" id="L12">        super(question);</span>
+        
+<span class="fc" id="L14">    }</span>
+
+    public void SetRA(String answer){
+<span class="fc" id="L17">        right_a = new Answer(answer);</span>
+<span class="fc" id="L18">    }</span>
+    public Node GetRA(){
+<span class="fc" id="L20">        return right_a;</span>
+    }
+    public void SetFA(String answer){
+<span class="fc" id="L23">        false_a = new Answer(answer);</span>
+<span class="fc" id="L24">    }</span>
+    public Node GetFA(){
+<span class="fc" id="L26">        return false_a;</span>
+    }
+
+    public boolean run() throws IOException, NullPointerException{
+
+<span class="pc bpc" id="L31" title="1 of 4 branches missed.">            if(right_a == null || false_a == null)</span>
+<span class="fc" id="L32">            { throw new NullPointerException(); </span>
+                
+            }
+            else{
+<span class="fc" id="L36">            System.out.println(this.getData());</span>
+<span class="fc" id="L37">            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));</span>
+<span class="fc" id="L38">            String user_input = br.readLine();</span>
+
+<span class="pc bpc" id="L40" title="3 of 4 branches missed.">            if(user_input == &quot;y&quot; &amp;&amp; !right_a.run()) wrong_ans(true);</span>
+<span class="pc bpc" id="L41" title="3 of 4 branches missed.">            else if(user_input == &quot;n&quot; &amp;&amp; !false_a.run()) wrong_ans(false);</span>
+<span class="fc" id="L42">            else return false;</span>
+            }
+<span class="nc" id="L44">        return true;</span>
+        
+    }
+
+    public void wrong_ans(boolean side) throws IOException, NullPointerException{
+
+        String true_ans, true_ques;
+<span class="fc" id="L51">        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));</span>
+        
+<span class="fc" id="L53">            System.out.println(&quot;Mire gondoltal?&quot;);</span>
+<span class="fc" id="L54">            true_ans = br.readLine();</span>
+<span class="fc" id="L55">            System.out.println(&quot;Mond egy krdest amire az igen valasz: &quot; + true_ans);</span>
+<span class="fc" id="L56">            true_ques = br.readLine();</span>
+<span class="fc" id="L57">            System.out.println(&quot;A kedes: &quot; + true_ques);</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">            if(side){</span>
+                Node temp;
+<span class="fc" id="L60">                temp = right_a;</span>
+    
+<span class="fc" id="L62">                right_a = new Question(true_ques);</span>
+<span class="fc" id="L63">                right_a.SetFA(temp.getData());</span>
+<span class="fc" id="L64">                right_a.SetRA(true_ans);</span>
+<span class="fc" id="L65">            }</span>
+            else{
+                Node temp;
+<span class="fc" id="L68">                temp = false_a;</span>
+    
+<span class="fc" id="L70">                false_a = new Question(true_ques);</span>
+<span class="fc" id="L71">                false_a.SetFA(temp.getData());</span>
+<span class="fc" id="L72">                false_a.SetRA(true_ans); </span>
+            }
+
+
+        
+        
+<span class="fc" id="L78">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>
