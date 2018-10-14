@@ -91,3 +91,4 @@ test {
      logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message )
   }
 }
+buildScan { termsOfServiceUrl = 'https://gradle.com/terms-of-service'; termsOfServiceAgree = 'yes' }
