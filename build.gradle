@@ -3,7 +3,15 @@ apply plugin: "java"
 apply plugin: "application"
 apply plugin: "jacoco"
 
+
 mainClassName = "Main"
+
+
+dependencies{
+    testCompile('org.junit.jupiter:junit-jupiter-api:5.3.1')
+	testCompile('org.junit.jupiter:junit-jupiter-params:5.3.1')
+	testRuntime('org.junit.jupiter:junit-jupiter-engine:5.3.1')
+}
 
 jacoco {
     toolVersion = "0.8.1"
@@ -54,10 +62,7 @@ repositories{
     mavenCentral()
 }
 
-dependencies{
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.1'
-}
+
 
 jar{
     manifest {
