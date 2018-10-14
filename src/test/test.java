@@ -117,7 +117,7 @@ public class test{
         try {
            is_correct =  ans.run(); 
         } catch (Exception e) {
-            is_correct = false;
+            is_correct = true;
         }
         assertTrue(is_correct);
     }
