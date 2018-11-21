@@ -29,17 +29,24 @@ public class Question extends Node implements Serializable{
     public boolean run() throws IOException, NullPointerException{
 
             if(right_a == null || false_a == null)
-            { throw new NullPointerException(); 
-                
+            { 
+                throw new NullPointerException();          
             }
             else{
             System.out.println(this.getData());
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             String user_input = br.readLine();
+            if(user_input.equals("y") && !right_a.run()){  
 
-            if(user_input == "y" && !right_a.run()) wrong_ans(true);
-            else if(user_input == "n" && !false_a.run()) wrong_ans(false);
-            else return false;
+                System.out.println(this.getData());
+                wrong_ans(true);
+            } 
+            else if(user_input.equals("n") && !false_a.run()){
+                wrong_ans(false);
+            } 
+            else{
+                return true;
+            } 
             }
         return true;
         

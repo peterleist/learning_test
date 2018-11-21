@@ -4,13 +4,15 @@ apply plugin: "application"
 apply plugin: "jacoco"
 
 
-mainClassName = "Main"
-
+mainClassName = "main.Main"
+//sourceSets.main.java.srcDirs = ['src']
 
 dependencies{
     testCompile('org.junit.jupiter:junit-jupiter-api:5.3.1')
 	testCompile('org.junit.jupiter:junit-jupiter-params:5.3.1')
 	testRuntime('org.junit.jupiter:junit-jupiter-engine:5.3.1')
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
 }
 
 jacoco {
@@ -65,10 +67,23 @@ repositories{
 
 
 
-jar{
+jar {
     manifest {
-        attributes 'Main-Class' : 'Main' 
+        attributes "Main-Class": "Main"
     }
+ 
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+task customFatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'Main'
+    }
+    baseName = 'all-in-one-jar'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
 
 test {
@@ -91,4 +106,6 @@ test {
      logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message )
   }
 }
-buildScan { termsOfServiceUrl = 'https://gradle.com/terms-of-service'; termsOfServiceAgree = 'yes' }
+run{
+ standardInput = System.in
+}
