@@ -1,7 +1,7 @@
 import java.io.*;
 
 public class Serialize {
-    public static Node deSer(){
+    public static Node deSer() {
         Node root = null;
         try {
             FileInputStream fileIn = new FileInputStream("tree.ser");
@@ -10,22 +10,21 @@ public class Serialize {
             in.close();
             fileIn.close();
         } catch (Exception e) {
-            //TODO: handle exception
+            // TODO: handle exception
         }
         return root;
     }
 
-    public static void Ser(Node root){
+    public static void Ser(Node root) {
         try {
-            FileOutputStream fileOut =
-            new FileOutputStream("tree.ser");
+            FileOutputStream fileOut = new FileOutputStream("tree.ser");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(root);
             out.close();
             fileOut.close();
-            
+
         } catch (Exception e) {
-            //TODO: handle exception
+            // TODO: handle exception
         }
     }
 }
