@@ -527,3 +527,5 @@ ASALocalRun/
 .localhistory/
 
 # End of https://www.gitignore.io/api/maven,gradle,visualstudio,intellij+all,visualstudiocode,openframeworks+visualstudio
+
+.bin/
